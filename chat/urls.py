@@ -6,9 +6,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-	# url(r'chat$',views.chat,name="chat"),
+	path('chat/',views.chat,name="chat"),
+	path('login/',views.login,name="login"),
 	# url(r'2$',views.do,name="2"),
 	# url(r'conv$',views.conversations,name="conv"),
-	path('', views.index, name='index'),
+	# path('', views.index, name='index'),
 	path('<str:room_name>/', views.room, name='room'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
