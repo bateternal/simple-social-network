@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from .models import Messages
-from .forms import LoginForm
+from .forms import LoginForm ,RegisterForm
 from django.db.models import Q
 from django.http import HttpResponse ,HttpResponseRedirect
 
@@ -45,6 +45,7 @@ def login(request):
 		return HttpResponseRedirect("/chat")
 	if request.method == 'POST':
 		login_form = LoginForm(request.POST or None)
+		register_form = RegisterForm(request.POST or None)
 		if login_form.is_valid():
 			username = login_form.cleaned_data['username']
 			password = login_form.cleaned_data['password']
@@ -54,4 +55,11 @@ def login(request):
 				return HttpResponseRedirect("/chat")
 			else:
 				return render(request, 'login.html', {'login': LoginForm(),"incorrect":True})
-	return render(request, 'login.html', {'login': LoginForm()})
+		elif register_form.is_valid:
+			name = register_form.cleaned_data['name']
+			lastname = register_form.cleaned_data.get('lastname',None)
+			username = register_form.cleaned_data['name']
+			password = register_form.cleaned_data['password']
+			email = register_form.cleaned_data['email']
+
+	return render(request, 'login.html', {'login': LoginForm() ,"register":RegisterForm()})

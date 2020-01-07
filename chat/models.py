@@ -12,3 +12,6 @@ class Messages(models.Model):
 		indexes = [
 			models.Index(fields=['sender','target','timestamp',]),
 		]
+
+class UserInformations(models.Model):
+	owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name='owner')
