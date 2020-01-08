@@ -190,3 +190,8 @@ li.dropdown {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.file {
+  visibility: hidden;
+  position: absolute;
+}

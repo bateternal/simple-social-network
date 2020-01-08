@@ -11,11 +11,11 @@
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                   <h3>Have an Account?</h3>
                 </div> -->
-                <div class="modal-body">
+                <div class="modal-body" style="z-index: 1100; height: 90%;">
                   <div class="well">
                     <ul class="nav nav-tabs">
-                      <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
-                      <li><a href="#create" data-toggle="tab">Create Account</a></li>
+                      <li id="loginli" class="active"><a onclick="ActiveLoginTab()" href="#login" data-toggle="tab">Login</a></li>
+                      <li id="registerli" ><a onclick="ActiveRegisterTab()" href="#create" data-toggle="tab">Create Account</a></li>
                     </ul>
                     <div id="myTabContent" class="tab-content">
                       <div class="tab-pane active in" id="login">
@@ -23,13 +23,12 @@
                           {% csrf_token %}
                           <fieldset>
                             <div id="legend">
-                              <legend class="">Login</legend>
                             </div>    
                             <div class="control-group">
                               <!-- Username -->
                               <label class="control-label"  for="username">Username</label>
                               <div class="controls">
-                                {{ login.username }}
+                                {{ login.lusername }}
                               </div>
                             </div>
        
@@ -37,7 +36,7 @@
                               <!-- Password-->
                               <label class="control-label" for="password">Password</label>
                               <div class="controls">
-                                {{ login.password }}
+                                {{ login.lpassword }}
                               </div>
                             </div>
        
@@ -52,20 +51,50 @@
                         </form>                
                       </div>
                       <div class="tab-pane fade" id="create">
-                        <form id="tab">
+                        <form class="form-horizontal" action='' method="POST">
                           {% csrf_token %}
-                          <label>Username</label>
-                          {{ username }}
-                          <label>First Name</label>
-                          {{ name }}
-                          <label>Last Name</label>
-                          {{ lastname }}
-                          <label>Email</label>
-                          {{ email }}
+                          <fieldset>
+                            <div id="legend">
+                            </div>    
+                            <div class="control-group">
+                              <!-- Username -->
+                              <label class="control-label"  for="username">first name</label>
+                              <div class="controls">
+                                {{ register.name }}
+                              </div>
+                            </div>
        
-                          <div>
-                            <button class="btn btn-primary">Create Account</button>
-                          </div>
+                            <div class="control-group">
+                              <!-- Password-->
+                              <label class="control-label" for="password">last name</label>
+                              <div class="controls">
+                                {{ register.lastname }}
+                              </div>
+                            </div>
+       
+                            <div class="control-group">
+                              <!-- Password-->
+                              <label class="control-label" for="password">email</label>
+                              <div class="controls">
+                                {{ register.email }}
+                              </div>
+                            </div>
+
+                            <div class="control-group">
+                              <!-- Password-->
+                              <label class="control-label" for="password">username</label>
+                              <div class="controls">
+                                {{ register.username }}
+                              </div>
+                            </div>
+
+                            <div class="control-group">
+                              <!-- Button -->
+                              <div class="controls">
+                                <button class="btn btn-success">create account</button>
+                              </div>
+                            </div>
+                          </fieldset>
                         </form>
                       </div>
                   </div>
@@ -75,8 +104,25 @@
     </div>
   </div>
   <script>
-    function changeActiveTab(tab){
-      
+    function ActiveRegisterTab(){
+      $('#loginli').removeClass('active');
+      $('#registerli').addClass('active');
+      $('#login').removeClass('active');
+      $('#login').removeClass('in');
+      $('#login').addClass('fade');
+      $('#create').addClass('active');
+      $('#create').addClass('in');
+      $('#create').removeClass('fade');       
+    }
+    function ActiveLoginTab(){
+      $('#loginli').addClass('active');
+      $('#registerli').removeClass('active');
+      $('#login').addClass('active');
+      $('#login').addClass('in');
+      $('#login').removeClass('fade');
+      $('#create').removeClass('active');
+      $('#create').removeClass('in');
+      $('#create').addClass('fade');       
     }
   </script>
 </body>

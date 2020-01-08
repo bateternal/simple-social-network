@@ -1,0 +1,61 @@
+
+{% load progress_bar %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<!------ Include the above in your HEAD tag ---------->
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href="/static/css/profile.css" rel="stylesheet" id="app-css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	
+    {% progress_bar_media %}
+</head>
+
+
+<body>
+	<div class="container containers">
+	    <div class="fb-profile">
+	    	<div class="container containers">
+			  <img align="left" class="fb-image-lg" src="http://lorempixel.com/850/280/nightlife/5/" alt="Profile image example"/>
+			  <a href=""><div class="top-left"><img src="/media/back.png" width="60" height="60"  alt="sunil"></div></a>
+			  <div class="bottom-right"><button type="button" class="btn btn-success">send message</button></div>
+			</div>
+
+	        <img align="left" class="fb-image-profile thumbnail container containers" src="http://lorempixel.com/180/180/people/9/" alt="Profile image example"/>
+	        <div class="fb-profile-text container containers" style="color: Black;">
+	        </div>
+	    </div>
+	</div> <!-- /container -->
+		<div class="container mt-3">
+		  <form enctype="multipart/form-data" method="post" action=".">
+		     {% csrf_token %}
+		     <label for="title" class="mr-sm-2">title</label>
+		 	{{ upload.title }}
+		     <div class="form-group">
+		      <label for="content">content</label>
+		      {{ upload.content }}
+		    </div>
+		     <span class="control-fileupload">
+		     	{{ upload.file }}
+		     	<label class="custom-file-label" for="customFile">Choose file</label>
+		     </div>
+		     {% progress_bar %}
+		     <button type="submit" class="btn btn-success">share</button>
+		 </form>
+		</div>   	
+	<script>
+		$(function() {
+		  $('input[type=file]').change(function(){
+		    var t = $(this).val();
+		    var labelText = 'File : ' + t.substr(12, t.length);
+		    $(this).prev('label').text(labelText);
+		  })
+		});
+	</script>
+</body>
