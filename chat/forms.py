@@ -13,10 +13,10 @@ class LoginForm(forms.Form):
 
 class Confirm(forms.Form):
 	file = forms.FileField()
-	title = forms.CharField(label='title', 
-                    widget=forms.TextInput(attrs={'placeholder': 'title'}))
-	content = forms.CharField(label='content', 
-                    widget=forms.Textarea(attrs={'placeholder': 'content'}))
+	password = forms.CharField(label='password', 
+                    widget=forms.PasswordInput(attrs={'placeholder': 'password'}))
+	bio = forms.CharField(label='bio', 
+                    widget=forms.Textarea(attrs={'placeholder': 'bio'}))
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.fields['file'].widget.attrs.update({'class': 'file','accept':"image/*"})
@@ -43,7 +43,9 @@ class RegisterForm(forms.Form):
 class Search(forms.Form):
 	username = forms.CharField(label='username', 
                     widget=forms.TextInput(attrs={'placeholder': 'username'}))
-
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['username'].widget.attrs.update({'class': 'form-control'})
 
 class Upload(forms.Form):
 	file = forms.FileField()

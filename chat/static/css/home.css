@@ -4,11 +4,15 @@
 }
 
 
+
 body{
     background-image: url("https://cdn.filepicker.io/api/file/1WxRtkAQG5h70aoPQdGA/convert?format=jpeg&quality=50");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden
 }
 .acik-renk-form{
     background: rgba(255, 255, 255, 0.58);
