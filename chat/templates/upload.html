@@ -1,5 +1,4 @@
-{% load progress_bar %}
-
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +12,7 @@
     
     <link href="/static/css/app.css" rel="stylesheet" id="app-css">
 	<link href="/static/css/font-awesome.css" type="text/css" rel="stylesheet">
-    {% progress_bar_media %}
+
 </head>
 
 <body  style="background-color: #bbbbbb">
@@ -36,7 +35,7 @@
 		     	{{ upload.file }}
 		     	<label class="custom-file-label" for="customFile">Choose file</label>
 		     </div>
-		     {% progress_bar %}
+
 		     <button type="submit" class="btn btn-success">share</button>
 		 </form>
 		</div>

@@ -1,5 +1,4 @@
-{% load progress_bar %}
-
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,19 +12,19 @@
     
     <link href="/static/css/app.css" rel="stylesheet" id="app-css">
   <link href="/static/css/font-awesome.css" type="text/css" rel="stylesheet">
-    {% progress_bar_media %}
+
 </head>
 
 <body  style="background-color: #bbbbbb">
 
   <div class="container mt-3">
-      <form enctype="multipart/form-data" method="post" action=".">
+      <form enctype="multipart/form-data" method="post" action="">
          {% csrf_token %}
-         <label for="title" class="mr-sm-2">title</label>
-      {{ confirm.title }}
+         <label for="password" class="mr-sm-2">password</label>
+      {{ confirm.password }}
          <div class="form-group">
-          <label for="content">content</label>
-          {{ confirm.content }}
+          <label for="bio">bio</label>
+          {{ confirm.bio }}
         </div>
          <div class="custom-file mb-3">
           {{ confirm.file }}
@@ -41,8 +40,7 @@
           </div>
           </br>
          </div>
-         {% progress_bar %}
-         <button type="submit" class="btn btn-success">share</button>
+         <button type="submit" class="btn btn-success">submit</button>
      </form>
     </div>
 

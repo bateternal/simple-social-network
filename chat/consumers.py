@@ -3,11 +3,11 @@ import json
 from asgiref.sync import async_to_sync
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
-        print(self.channel_name)
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-
+        print(self.channel_name + "\n\n\n\n")
+        data = self.scope['url_route']['kwargs']['room_name']
+        self.room_name =data.split('-')[0]
         async_to_sync(self.channel_layer.group_add)(
-            self.room_name,
+            data.split('-')[1],
             self.channel_name
         )
 
@@ -21,7 +21,7 @@ class ChatConsumer(WebsocketConsumer):
         message = text_data_json['message']
 
         async_to_sync(self.channel_layer.group_send)(
-            str((int(self.room_name)+1)%2),
+            self.room_name,
             {
                 'type': 'chat_message',
                 'message': message

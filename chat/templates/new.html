@@ -1,61 +1,85 @@
+{% load static %}
 
-{% load progress_bar %}
+<script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    
+    <link href="/static/css/app.css" rel="stylesheet" id="app-css">
+  <link href="/static/css/font-awesome.css" type="text/css" rel="stylesheet">
+<!------ Include the above in your HEAD tag ---------->
 
-<!DOCTYPE html>
-<html>
-<head>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-	<!------ Include the above in your HEAD tag ---------->
-
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-	<link href="/static/css/profile.css" rel="stylesheet" id="app-css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	
-    {% progress_bar_media %}
-</head>
-
-
-<body>
+<body   style="background-color: #bbbbbb">
 	<div class="container containers">
 	    <div class="fb-profile">
 	    	<div class="container containers">
-			  <img align="left" class="fb-image-lg" src="http://lorempixel.com/850/280/nightlife/5/" alt="Profile image example"/>
-			  <a href=""><div class="top-left"><img src="/media/back.png" width="60" height="60"  alt="sunil"></div></a>
-			  <div class="bottom-right"><button type="button" class="btn btn-success">send message</button></div>
-			</div>
 
-	        <img align="left" class="fb-image-profile thumbnail container containers" src="http://lorempixel.com/180/180/people/9/" alt="Profile image example"/>
+
 	        <div class="fb-profile-text container containers" style="color: Black;">
+	            <h1>add post</h1>
+	            <p>{{ bio }}</p>
 	        </div>
 	    </div>
 	</div> <!-- /container -->
-		<div class="container mt-3">
-		  <form enctype="multipart/form-data" method="post" action=".">
-		     {% csrf_token %}
-		     <label for="title" class="mr-sm-2">title</label>
-		 	{{ upload.title }}
-		     <div class="form-group">
-		      <label for="content">content</label>
-		      {{ upload.content }}
-		    </div>
-		     <span class="control-fileupload">
-		     	{{ upload.file }}
-		     	<label class="custom-file-label" for="customFile">Choose file</label>
-		     </div>
-		     {% progress_bar %}
-		     <button type="submit" class="btn btn-success">share</button>
-		 </form>
-		</div>   	
+
+	  <div class="container mt-3">
+	      <form style="margin: 0; padding: 0;display: inline;" enctype="multipart/form-data" method="post" action="">
+	         {% csrf_token %}
+	         <label for="title" class="mr-sm-2">title</label>
+	      {{ upload.title }}
+	         <div class="form-group">
+	          <label for="content">content</label>
+	          {{ upload.content }}
+	        </div>
+	         <div class="custom-file mb-3">
+	          {{ upload.file }}
+	          <div class="input-group my-3">
+	            <input type="text" class="form-control" disabled placeholder="Upload File" id="file">
+	            <div class="input-group-append">
+	              <button type="button" class="browse btn btn-primary">Browse...</button>
+	            </div>
+	          </div>
+
+
+	
+	         </div>
+	         	          </br>
+
+	      </br> 
+	         <button type="submit" class="btn btn-success">share</button>
+	         
+	     </form>
+	     	<a href="/home"><button class="btn btn-danger">cancel</button></a>
+	    </div>
+
+
+
 	<script>
-		$(function() {
-		  $('input[type=file]').change(function(){
-		    var t = $(this).val();
-		    var labelText = 'File : ' + t.substr(12, t.length);
-		    $(this).prev('label').text(labelText);
-		  })
-		});
+	// Add the following code if you want the name of the file appear on select
+	$(".custom-file-input").on("change", function() {
+	  var fileName = $(this).val().split("\\").pop();
+	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	});
+
+
+	$(document).on("click", ".browse", function() {
+	  var file = $(this).parents().find(".file");
+	  file.trigger("click");
+	});
+	$('input[type="file"]').change(function(e) {
+	  var fileName = e.target.files[0].name;
+	  $("#file").val(fileName);
+
+	  var reader = new FileReader();
+	  reader.onload = function(e) {
+	    // get loaded data and render thumbnail.
+	    document.getElementById("preview").src = e.target.result;
+	  };
+	  // read the image file as a data URL.
+	  reader.readAsDataURL(this.files[0]);
+	});
 	</script>
 </body>

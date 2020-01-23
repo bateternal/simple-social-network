@@ -20,8 +20,8 @@ class Confirm(forms.Form):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.fields['file'].widget.attrs.update({'class': 'file','accept':"image/*"})
-		self.fields['content'].widget.attrs.update({'class': 'form-control','rows':"5"})
-		self.fields['title'].widget.attrs.update({'class': 'form-control mb-2 mr-sm-2'})	
+		self.fields['password'].widget.attrs.update({'class': 'form-control','rows':"5"})
+		self.fields['bio'].widget.attrs.update({'class': 'form-control mb-2 mr-sm-2'})	
 
 class RegisterForm(forms.Form):
 	username = forms.CharField(label='username', 
@@ -38,7 +38,6 @@ class RegisterForm(forms.Form):
 		self.fields['name'].widget.attrs.update({'class': 'input-xlarge'})
 		self.fields['lastname'].widget.attrs.update({'class': 'input-xlarge'})
 		self.fields['email'].widget.attrs.update({'class': 'input-xlarge'})
-		self.fields['password'].widget.attrs.update({'class': 'input-xlarge'})
 
 class Search(forms.Form):
 	username = forms.CharField(label='username', 
@@ -55,6 +54,9 @@ class Upload(forms.Form):
                     widget=forms.Textarea(attrs={'placeholder': 'content'}))
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.fields['file'].widget.attrs.update({'class': 'fileContainer'})
-		self.fields['content'].widget.attrs.update({'class': 'form-control','rows':"5"})
-		self.fields['title'].widget.attrs.update({'class': 'form-control mb-2 mr-sm-2'})
+		# self.fields['file'].widget.attrs.update({'class': 'fileContainer'})
+		# self.fields['content'].widget.attrs.update({'class': 'form-control','rows':"5"})
+		# self.fields['title'].widget.attrs.update({'class': 'form-control mb-2 mr-sm-2'})
+		self.fields['file'].widget.attrs.update({'class': 'file','accept':"image/*"})
+		self.fields['title'].widget.attrs.update({'class': 'form-control','rows':"5"})
+		self.fields['content'].widget.attrs.update({'class': 'form-control mb-2 mr-sm-2'})	

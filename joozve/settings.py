@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'channels',
-    'progressbarupload',
     'chat',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,7 +42,7 @@ INSTALLED_APPS = [
 ]
 
 FILE_UPLOAD_HANDLERS = (
-    "progressbarupload.uploadhandler.ProgressBarUploadHandler",
+    # "progressbarupload.uploadhandler.ProgressBarUploadHandler",
     "django.core.files.uploadhandler.MemoryFileUploadHandler",
     "django.core.files.uploadhandler.TemporaryFileUploadHandler",
 )

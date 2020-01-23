@@ -1,5 +1,6 @@
 from random import randint
-
+from time import time
+import base64
 class ConfirmTool:
 
 	__letters = ['0','1','2','3','4','5','6','7','8','9','a',
@@ -11,4 +12,13 @@ class ConfirmTool:
 
 	@staticmethod
 	def generateConfirmToken():
-		return "".join([self.__letters[randint(0,62)] for i in range(randint(10,12))])
+		ts = str(time()*10000).replace(".","")
+		ts = str(randint(10000,99999)) + ts
+		data = "".join([ConfirmTool.__letters[int(ts[i])] for i in range(len(ts))])
+		urlSafeEncodedBytes = base64.urlsafe_b64encode(data.encode("utf-8"))
+		urlSafeEncodedStr = str(urlSafeEncodedBytes, "utf-8").replace("=","").replace("-","")
+		return urlSafeEncodedStr
+
+
+if __name__ == "__main__":
+	print(ConfirmTool.generateConfirmToken())
