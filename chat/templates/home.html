@@ -12,6 +12,22 @@
 <link href="/static/css/profile.css" rel="stylesheet" id="app-css">
 </head>
 <body style="background-color: #bbbbbb;">
+	<div class="modal fade" id="alert" style="z-index: 50000;width: auto !important;" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="alertmodaltext">alert</h4>
+      </div>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div id="modalalert" class="modal-body">
+            <div class="alert alert-info" id="alertcontent">
+              
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 	<div class="container containers">
 	    <div id="page" class="fb-profile">
 	    	<div class="container containers">
@@ -58,14 +74,20 @@
 						
 
 						if (payload.is_file){
-							$('#page').append(`<div class="panel panel-default">
+							$('#page').append(`<div id="post-${payload.pk}" class="panel panel-default">
 											<div class="panel-heading">${payload.title}</div>
 											<div class="panel-body" style="color: Black;">${payload.content}</div>
-											<div class="panel-body" style="color: Black;"><a href="${payload.file}">دانلود فایل ضمیمه</a></div></div>`)
+											<div class="panel-body" style="color: Black;"><a href="${payload.file}">دانلود فایل ضمیمه</a> 
+											<button onclick="deletepost(${payload.pk},'${payload.title}')" style="float: right;" class="btn btn-danger">delete</button>
+											</div>
+											</div>`)
 						}else{
-							$('#page').append(`<div class="panel panel-default">
+							$('#page').append(`<div id="post-${payload.pk}" class="panel panel-default">
 											<div class="panel-heading">${payload.title}</div>
 											<div class="panel-body" style="color: Black;">${payload.content}</div>
+											<div class="panel-body" style="color: Black;">
+											<button onclick="deletepost(${payload.pk},'${payload.title}')" style="float: right;" class="btn btn-danger">delete</button>
+											</div>
 											</div>
 											`)
 						}
@@ -76,6 +98,35 @@
 
 		}
 		getposts()
+
+		function deletepost(pk,title){
+			if (window.confirm(`are you sure want to remove this post?\ntitle: ${title}`)) {
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", window.location.origin + "/deletepost" , true);
+				xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState === 4 && xhr.status === 200) {
+						$(`#post-${pk}`).remove()
+						display("post deleted.")
+						var myEle = document.getElementById("myElement");
+					    if(!myEle){
+					        $('#page').append(`<div class="panel panel-default">
+											<div class="panel-heading"></div>
+											<div class="panel-body" style="color: Black;">هیچ پستی موجود نیست</div>
+											</div>
+											`)
+					    }
+					}
+				}
+				xhr.send(JSON.stringify({"pk":pk}));
+			}
+		}
+
+		function display(text){
+	      $('#alertcontentvalue').remove()
+	      $('#alertcontent').append(`<p id="alertcontentvalue"><strong>Alert!</strong> ${text}</p>`)
+	      $('#alert').modal('show')
+	    }
 
 	</script>
 </html>

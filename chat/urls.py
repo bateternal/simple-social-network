@@ -13,6 +13,7 @@ urlpatterns = [
 	url('home/',views.home,name="home"),
 	url('new/',views.new,name="new"),
 	url(r'getposts$',views.get_posts,name="get my posts"),
+	url(r'deletepost$',views.delete_post,name="delete my post"),
 	url(r'getposts/(?P<username>[\w.@+-]+)$',views.get_posts,name="get posts"),
 	url(r'confirm/(?P<token>[\w.@+-]+)$',views.confirm,name="confirm"),
 	url(r'landing$',views.landing,name="landing"),

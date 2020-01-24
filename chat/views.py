@@ -124,6 +124,7 @@ def new(request):
 				for chunk in file.chunks():
 					destination.write(chunk)
 				destination.close()
+				path = "/" + path
 			else:
 				path = None
 			post = Posts()
@@ -193,8 +194,20 @@ def get_posts(request,username=None):
 			payload["file"] = post.file
 		payload["title"] = post.title
 		payload["content"] = post.content or ""
+		payload["pk"] = post.pk
 		data.append(payload)
 	return HttpResponse(json.dumps(data),content_type='application/json')
+
+@csrf_exempt
+def delete_post(request):
+	if not request.user.is_authenticated:
+		return HttpResponseRedirect("/login")
+	data  = json.loads(str(request.body,'utf-8'))
+	try:
+		Posts.objects.get(owner=request.user,pk=data["pk"]).delete()
+		return HttpResponse(json.dumps({'errorcode':0,'success':True}))
+	except:
+		pass
 
 @csrf_exempt
 def auto_complete(request):

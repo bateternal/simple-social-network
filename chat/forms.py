@@ -49,14 +49,11 @@ class Search(forms.Form):
 class Upload(forms.Form):
 	file = forms.FileField()
 	title = forms.CharField(label='title', 
-                    widget=forms.TextInput(attrs={'placeholder': 'title'}))
+                    widget=forms.TextInput(attrs={'placeholder': 'title'}),required=False)
 	content = forms.CharField(label='content', 
                     widget=forms.Textarea(attrs={'placeholder': 'content'}))
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		# self.fields['file'].widget.attrs.update({'class': 'fileContainer'})
-		# self.fields['content'].widget.attrs.update({'class': 'form-control','rows':"5"})
-		# self.fields['title'].widget.attrs.update({'class': 'form-control mb-2 mr-sm-2'})
 		self.fields['file'].widget.attrs.update({'class': 'file','accept':"image/*"})
 		self.fields['title'].widget.attrs.update({'class': 'form-control','rows':"5"})
 		self.fields['content'].widget.attrs.update({'class': 'form-control mb-2 mr-sm-2'})	
