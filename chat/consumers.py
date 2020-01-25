@@ -48,7 +48,7 @@ class ChatConsumer(WebsocketConsumer):
                 'type': 'chat_message',
                 'message': message,
                 'date' : date,
-                'pk' : message.pk
+                'pk' : message.id
             }
         )
 

@@ -73,7 +73,7 @@ def sync_messages(request):
 		query = 'select * from chat_messages where ("target_id"=%i and "sender_id"=%i) or ("sender_id"=%i and "target_id"=%i) order by id desc limit 10;'%(sender_id,target_id,sender_id,target_id)
 		objects = Messages.objects.raw(query)
 
-		messages = [[{"text":obj.text,"date":obj.date,"pk":obj.pk},"out" if obj.sender == user else "in"] for obj in objects ]
+		messages = [[{"text":obj.text,"date":obj.date,"pk":obj.id},"out" if obj.sender == user else "in"] for obj in objects ]
 		Conversations.objects.filter(user=request.user,target=target).update(seeing=True)
 
 		return HttpResponse(json.dumps(messages),content_type="application/json")
