@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.contrib.auth import authenticate, login
 from django.contrib.postgres.search import TrigramSimilarity 
-
+from time import time
 def chat(request,username):
 	if not request.user.is_authenticated:
 		return HttpResponseRedirect("/login")
@@ -25,6 +25,9 @@ def room(request, room_name):
     return render(request, 'room.html', {
         'room_name': room_name
     })
+
+def crop(request):
+	return render(request,"croptest.html",{})
 
 def home(request):
 	if not request.user.is_authenticated:
@@ -41,13 +44,27 @@ def login_required_api(function):
 		return function(request, user)
 	return wrapper
 
-@login_required_api
-def sync_messages(request,user):
+@csrf_exempt
+def sync_messages(request):
 	data = json.loads(str(request.body,'utf-8'))
-	target ,index ,messages = User.objects.get(username=data['target']) ,data['index'] ,[]
-	objects = Messages.objects.filter(Q(target=target,sender=user) | Q(target=sender,sender=target)).order_by('-timestamp').count(50)
-	messages = [ [{"text":obj.text,"time":obj.create},"out" if obj.sender == sender else "in"] for obj in objects ]
+	target ,index ,messages,user = User.objects.get(username=data['target']) ,data.get('index',0) ,[] ,User.objects.get(username=data['sender'])
+	objects = Messages.objects.filter(Q(target=target,sender=user) | Q(target=user,sender=target)).order_by('-pk')[:10][::-1]
+	messages = {i: [{"text":obj.text,"date":obj.date},"out" if obj.sender == user else "in"] for i,obj in enumerate(objects) }
+	print(messages)
 	return HttpResponse(json.dumps(messages),content_type="application/json")
+
+@csrf_exempt
+def add_message(request):
+	data = json.loads(str(request.body,'utf-8'))
+	if request.user.username == data['sender']:
+		message = Messages()
+		message.sender = User.objects.get(username=data['sender'])
+		message.target = User.objects.get(username=data['target'])
+		message.timestamp = time()
+		message.text = data['text']
+		message.date = data['date']
+		message.save()
+		return HttpResponse(json.dumps({'errorcode':0,'success':True}))
 
 def login_user(request):
 	if request.user.is_authenticated:
@@ -137,6 +154,8 @@ def new(request):
 	user = UserInformations.objects.get(owner=request.user)		
 	return render(request,'new.html',{'upload':Upload(),"pic":user.profile_picture,"confirm":Confirm()})
 
+def conversations(request):
+	return render(request,'conversations.html',{})
 
 def confirm(request,token):
 	if request.user.is_authenticated:

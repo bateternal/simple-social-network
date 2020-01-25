@@ -7,6 +7,7 @@ class Messages(models.Model):
 	create = models.DateTimeField(auto_now_add=True)
 	timestamp = models.CharField(max_length=20)
 	text = models.TextField(null=True)
+	date = models.CharField(max_length=20,null=True)
 
 	class Meta:
 		indexes = [
