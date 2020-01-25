@@ -46,7 +46,7 @@ class ChatConsumer(WebsocketConsumer):
             self.room_name,
             {
                 'type': 'chat_message',
-                'message': message,
+                'message': text,
                 'date' : date,
                 'pk' : message.id
             }
