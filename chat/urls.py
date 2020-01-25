@@ -9,7 +9,7 @@ urlpatterns = [
 	
 	url(r'^chat/(?P<username>[\w.@+-]+)$',views.chat,name="chat"),
 	url(r'^login$',views.login_user,name="login"),
-	url(r'^profile/(?P<username>[\w.@+-]+)$',views.profile,name="profile"),
+	url(r'^app/user/profile/(?P<username>[\w.@+-]+)$',views.profile,name="profile"),
 
 	url('home/',views.home,name="home"),
 	url('new/',views.new,name="new"),
