@@ -8,10 +8,25 @@ class Messages(models.Model):
 	timestamp = models.CharField(max_length=20)
 	text = models.TextField(null=True)
 	date = models.CharField(max_length=20,null=True)
+	seeing = models.BooleanField(default=False)
 
 	class Meta:
 		indexes = [
 			models.Index(fields=['sender','target','timestamp',]),
+		]
+
+class Conversations(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="userowner")
+	target = models.ForeignKey(User, on_delete=models.CASCADE,related_name="targetchat")
+	text = models.TextField(null=True)
+	date = models.CharField(max_length=20,null=True)
+	create = models.DateTimeField(auto_now_add=True)
+	seeing = models.BooleanField(default=False)
+
+	class Meta:
+		unique_together = ('user', 'target',)
+		indexes = [
+			models.Index(fields=['user','target','create',]),
 		]
 
 class UserInformations(models.Model):

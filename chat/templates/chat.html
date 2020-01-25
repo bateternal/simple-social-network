@@ -18,7 +18,7 @@
 <body  style="background-color: #bbbbbb; overflow-y: hidden;">
 <div class="container containers">
 <ul style="height: 11%;">
-  <li><a href="/chat/{{ room_name }}"><img src="/media/back.png" width="60" height="60"  alt="sunil"></a></li>
+  <li><a href="/conv"><img src="/media/back.png" width="60" height="60"  alt="sunil"></a></li>
   <li><a href="/app/user/profile/{{ room_name }}"><img src="{{ pic }}" width="60" height="60"  alt="sunil"></a></li>
   <li><h2 class="s">{{ name }}</h2></li>
   <li style="float:right;"><a class="s">About</a></li>
@@ -68,7 +68,9 @@
 
         var data = JSON.parse(e.data);
         var message = data['message'];
-        addin(message,"",true);
+        var date = data['date'];
+        var pk = data['pk'];
+        addin(message,"",true,pk);
         // document.querySelector('#chat-log').value += (message + '\n');
     };
 
@@ -91,12 +93,15 @@
           return;
         }
         chatSocket.send(JSON.stringify({
-            'message': message
+            'message': message,
+            "date":formatAMPM(new Date()),
+            "sender":'{{me}}',
+            "target":'{{ room_name }}'
         }));
-        addout(message,"",true);
+        addout(message,"",true,true);
         messageInputDom.value = '';
     };
-    function addout(message,date1,has_date){
+    function addout(message,date1,has_date,add){
       if (has_date){
         var date = formatAMPM(new Date());
       }else{
@@ -111,19 +116,9 @@
         `)
       var test = document.getElementById("chat-box").scrollHeight;
       $('#chat-box').scrollTop(test*2);
-
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", window.location.origin + "/addmessage" , true);
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          var myArr = JSON.parse(xhr.responseText);
-          
-        }
-      };
-      xhr.send(JSON.stringify({"sender":'{{me}}',"target":'{{ room_name }}',"text":message,"date":date}));
+ 
     }
-    function addin(message,date1,has_date){
+    function addin(message,date1,has_date,pk){
       if (has_date){
         var date = formatAMPM(new Date());
       }else{
@@ -140,7 +135,7 @@
         `)
       var test = document.getElementById("chat-box").scrollHeight;
       $('#chat-box').scrollTop(test*2);
-
+      see(pk)
 
     }
     function formatAMPM(date) {
@@ -153,6 +148,19 @@
       var strTime = hours + ':' + minutes + ' ' + ampm;
       return strTime;
     }
+
+    function see(pk){
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", window.location.origin + "/seemsg" , true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          
+        }
+      };
+      xhr.send(JSON.stringify({"pk":pk,"target":'{{ room_name }}'}));
+    }
+
     function sync(){
       var xhr = new XMLHttpRequest();
       xhr.open("POST", window.location.origin + "/sync" , true);
@@ -161,11 +169,13 @@
         if (xhr.readyState === 4 && xhr.status === 200) {
           var myArr = JSON.parse(xhr.responseText);
           var index;
-          for (index = 0; index < 10; index++) {
-            if (myArr[index][1] == "in"){
-              addin(myArr[index][0]['text'],myArr[index][0]['date'],false)
-            }else{
-              addout(myArr[index][0]['text'],myArr[index][0]['date'],false)
+          if(myArr.length > 0){
+            for (var index in myArr) {
+              if (myArr[index][1] == "in"){
+                addin(myArr[index][0]['text'],myArr[index][0]['date'],false,myArr[index][0]['pk'])
+              }else{
+                addout(myArr[index][0]['text'],myArr[index][0]['date'],false,false)
+              }
             }
           }
         }
