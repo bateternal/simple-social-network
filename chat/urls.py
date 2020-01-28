@@ -28,5 +28,5 @@ urlpatterns = [
 	url(r'^seemsg$',views.see_message,name='see'),
 	url(r'^logout$',views.logout_view,name='logout'),
 	url(r'^khodavakilinaya$',views.notfound,name='404'),
-	# url(r'',views.other,name='other'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+	url(r'',views.other,name='other'),
+] 
