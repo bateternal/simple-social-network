@@ -1,0 +1,4 @@
+*.pyc
+*.log
+*.sqlite3
+/chat/migrations
