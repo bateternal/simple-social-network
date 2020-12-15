@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+
+  redis:
+    build: ./redis
+    volumes:
+      - ./redis:/etc/redis
+    ports:
+      - 6379:6379
+
+  ssn:
+    build: ./simple-social-network
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - "./simple-social-network/media:/media"
+    environment:
+      - REDIS_DOMAIN=redis
+      - REDIS_PORT=6379
+      - MEDIA_DIRECTORY=media
+
+
+  nginx:
+    image: nginx:latest
+    links:
+      - ssn
+    volumes:
+      - "./simple-social-network/media:/media"
+      - "./simple-social-network/chat/static:/static"
+      - "./nginx:/etc/nginx/"
+    ports:
+      - "8080:80"
+
+

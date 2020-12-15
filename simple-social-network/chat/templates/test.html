@@ -1,0 +1,65 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title></title>
+  <script src="/static/js/html-canvas-img-resizer.min.js"></script></head>
+  
+  <body>
+    <div>
+      <input type="file" id="imageLoader" name="imageLoader">
+      <p>Upload an image</p>
+    </div>
+    <div style="height: 400px; width: 100%">
+      <div style="float: left; width: 45%">
+        <p>Original Image</p>
+        <div style="width:100%" id="image2">
+          <input type="button" id="getCropImage" value="Show crop image">
+        </div>
+      </div>
+      <div style="float: right; width: 45%;">
+        <p>Cropped Image</p>
+        <img style="max-width: 100%; max-height: 500px" id="renderedImage2" src="" alt="">
+      </div>
+    </div>
+  
+  <script>
+    // second example
+    img2 = document.getElementById('renderedImage2');
+    const imageLoader = document.getElementById('imageLoader');
+    const showCropImage = document.getElementById('getCropImage');
+    imageLoader.addEventListener('change', handleImage, false);
+    ir2 = htmlCanvasImgResizer.default({
+      id: 'image2',
+    });
+
+    function upload(){
+      const img = document.getElementById('renderedImage2')
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/test", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+
+
+      xhr.send(JSON.stringify({"file":img2.src}));
+    }
+
+    function handleImage(e) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        ir2.setImageURL(event.target.result);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    showCropImage.addEventListener(
+      'click',
+      () => {
+        ir2.getImage(data => img2.src = data, {dataType: 'dataURL', imageType: 'image/jpeg', imageQuality: 0.5});
+        upload()
+      },
+      false
+    );
+
+  </script>
+
+</body></html>
