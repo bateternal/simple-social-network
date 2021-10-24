@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import Search
+from chat.forms import Search
 from django.http import HttpResponseRedirect
 
 

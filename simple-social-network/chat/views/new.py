@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from chat.models import UserInformations, Posts
 from chat.views import notfound
-from .forms import Upload, Confirm
-from .tools import ConfirmTool
+from chat.forms import Upload, Confirm
+from chat.tools import ConfirmTool
 from django.http import HttpResponseRedirect
 
 

@@ -14,5 +14,5 @@ from .login_user import login_user
 from .logout import logout_view
 from .new import new
 from .profile import profile
-from .see_message import see_message
+from .see_messages import see_message
 from .sync_messages import sync_messages

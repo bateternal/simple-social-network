@@ -1,27 +1,56 @@
 version: '3'
 
 services:
-
-  redis_db:
-    build: ./redis
-    volumes:
-      - ./redis:/etc/redis
-    ports:
-      - 6379
-
   ssn:
     build: ./simple-social-network
+    # command: gunicorn --threads=2 --workers=2 joozve.wsgi:application --bind 0.0.0.0:8000
     command: python3 manage.py runserver 0.0.0.0:8000
+    restart: always
     volumes:
       - "./simple-social-network/media:/media"
     environment:
-      - REDIS_DOMAIN=redis://redis_db
+      - REDIS_DOMAIN=redis_lab
       - REDIS_PORT=6379
       - MEDIA_DIRECTORY=media
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=database_lab
+      - SQL_USER=aut
+      - SQL_PASSWORD=Jw1Be4R71RTu5
+      - SQL_HOST=db_lab
+      - SQL_PORT=5432
+      - REDIS_PASSWORD=jscGVGGVGB72vGAxmawuDOKAINi
+    depends_on:
+      - db_lab
+      - redis_lab
+    ports:
+      - 8000
+
+  db_lab:
+    image: postgres:12.0-alpine
+    restart: always
+    volumes:
+      - postgres_data_lab:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=database_lab
+      - POSTGRES_USER=aut
+      - POSTGRES_PASSWORD=Jw1Be4R71RTu5
+    ports:
+      - 5432
+
+  redis_lab:
+    build: ./redis
+    restart: always
+    volumes:
+      - ./redis:/etc/redis
+    environment:
+      - REDIS_PASSWORD=jscGVGGVGB72vGAxmawuDOKAINi
+    ports:
+      - 6379
 
 
-  nginx:
+  nginx_lab:
     image: nginx:latest
+    restart: always
     links:
       - ssn
     volumes:
@@ -29,6 +58,16 @@ services:
       - "./simple-social-network/chat/static:/static"
       - "./nginx:/etc/nginx/"
     ports:
-      - 8080
+      - 80
 
+  pgadmin_lab:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - 5050
 
+volumes:
+  postgres_data_lab:

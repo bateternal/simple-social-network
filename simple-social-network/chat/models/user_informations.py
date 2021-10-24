@@ -4,11 +4,15 @@ from django.contrib.auth.models import User
 
 class UserInformations(models.Model):
     owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='owner', null=True)
+        User, on_delete=models.CASCADE,
+        related_name='owner', null=True, db_index=True)
     firstname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
-    username = models.CharField(max_length=20, unique=True)
+    username = models.CharField(max_length=20, unique=True, db_index=True)
     email = models.CharField(max_length=40, unique=True)
     profile_picture = models.CharField(max_length=100, null=True)
     bio = models.CharField(max_length=200, default='')
     verified = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = u'user_information'

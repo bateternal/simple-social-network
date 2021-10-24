@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from chat.models import UserInformations, ConfirmToken
 from chat.views import notfound
-from .forms import LoginForm, RegisterForm
-from .tools import ConfirmTool
+from chat.forms import LoginForm, RegisterForm
+from chat.tools import ConfirmTool
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
+import traceback
 
 
 def login_user(request):
@@ -54,4 +55,5 @@ def login_user(request):
         return render(request, 'login.html', {
             'login': LoginForm(), "register": RegisterForm()})
     except Exception:
+        traceback.print_exc()
         return notfound(request)

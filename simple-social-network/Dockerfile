@@ -1,13 +1,30 @@
-FROM python:3
+FROM ubuntu:20.04
 
-expose 8000
-copy . /usr/src/app
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    software-properties-common
+RUN add-apt-repository universe
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    python3 \
+    python3-pip
+
+# set work directory
 WORKDIR /usr/src/app
-RUN pip3 install --upgrade pip && \
-    pip3 install -r requirements.txt
 
-RUN python3 manage.py makemigrations
-RUN python3 manage.py migrate
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+# install dependencies
+#RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
 
 
+ENV TZ Asia/Tehran
 
+# copy project
+
+
+COPY . .

@@ -2,8 +2,8 @@ from chat.models import ConfirmToken
 from chat.views import notfound
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .forms import Confirm
-from .tools import ConfirmTool
+from chat.forms import Confirm
+from chat.tools import ConfirmTool
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt

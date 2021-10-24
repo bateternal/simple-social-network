@@ -13,3 +13,6 @@ class Posts(models.Model):
     def clean(self):
         if not (self.file or self.content):
             raise ValidationError("You must specify either file or content")
+
+    class Meta:
+        db_table = u'post'

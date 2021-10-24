@@ -19,7 +19,7 @@ def sync_messages(request):
         #     username=data['target']), data.get('index', 0), [], User.objects.get(username=data['sender'])
         sender_id = user.id
         target_id = target.id
-        query = '''select * from chat_messages where 
+        query = '''select * from message where 
         ("target_id"=%i and "sender_id"=%i) or 
         ("sender_id"=%i and "target_id"=%i) 
         order by id desc limit 10;

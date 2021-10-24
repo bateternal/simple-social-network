@@ -48,13 +48,15 @@ FILE_UPLOAD_HANDLERS = (
 )
 
 REDIS_DOMAIN = os.environ.get('REDIS_DOMAIN')
-REDIS_PORT = os.environ.get('REDIS_PORT')  
+REDIS_PORT = os.environ.get('REDIS_PORT')
+REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD') 
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(REDIS_DOMAIN, REDIS_PORT)],
+            "hosts": [("redis://:%s@%s:%s/0" % (
+                REDIS_PASSWORD, REDIS_DOMAIN, REDIS_PORT))],
         },
     },
 }
@@ -87,17 +89,26 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'joozve.wsgi.application'
 ASGI_APPLICATION = 'joozve.routing.application'
+WSGI_APPLICATION = 'joozve.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('SQL_DATABASE', ''),
+        'USER': os.environ.get('SQL_USER', ''),
+        'PASSWORD': os.environ.get('SQL_PASSWORD', ''),
+        'HOST': os.environ.get('SQL_HOST', ''),
+        'PORT': os.environ.get('SQL_PORT', ''),
+        'CONN_MAX_AGE': 0,
     }
 }
 
