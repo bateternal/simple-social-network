@@ -1,4 +1,3 @@
 *.pyc
 *.log
 *.sqlite3
-simple-social-network/chat/migrations
