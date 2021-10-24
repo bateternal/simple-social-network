@@ -24,6 +24,9 @@ services:
       - redis_lab
     ports:
       - 8000
+    networks:
+      - my-network
+
 
   db_lab:
     image: postgres:12.0-alpine
@@ -36,6 +39,9 @@ services:
       - POSTGRES_PASSWORD=Jw1Be4R71RTu5
     ports:
       - 5432
+    networks:
+      - my-network
+
 
   redis_lab:
     build: ./redis
@@ -46,6 +52,8 @@ services:
       - REDIS_PASSWORD=jscGVGGVGB72vGAxmawuDOKAINi
     ports:
       - 6379
+    networks:
+      - my-network
 
 
   nginx_lab:
@@ -59,6 +67,9 @@ services:
       - "./nginx:/etc/nginx/"
     ports:
       - 80
+    networks:
+      - my-network
+
 
   pgadmin_lab:
     image: dpage/pgadmin4
@@ -68,6 +79,13 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - 5050
+    networks:
+      - my-network
 
 volumes:
   postgres_data_lab:
+
+
+networks:
+  my-network:
+    external: true
