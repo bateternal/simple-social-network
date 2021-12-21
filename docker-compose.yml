@@ -71,6 +71,19 @@ services:
     networks:
       - my-network
 
+  webterminal:
+    image: webterminal/webterminal:latest
+    container_name: webterminal
+    ports:
+      - "80"
+      - "2100"
+    networks:
+      - my-network
+    volumes:
+      #- "/var/log:/var/log"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart: always
 
   pgadmin_lab:
     image: dpage/pgadmin4

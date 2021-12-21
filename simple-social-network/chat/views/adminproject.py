@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from chat.forms import Search
 from django.http import HttpResponseRedirect
+from proxy.views import proxy_view
 
 
 def adminproject(request):
@@ -13,3 +14,13 @@ def adminproject(request):
             "user": request.user.username
         }
         )
+
+
+def shell(request):
+    if request.user.is_authenticated:
+        return proxy_view(request, "webterminal:2100")
+
+
+def shell80(request):
+    if request.user.is_authenticated:
+        return proxy_view(request, "webterminal:80")
