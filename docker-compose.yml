@@ -66,20 +66,32 @@ services:
       - "./simple-social-network/chat/static:/static"
       - "./nginx:/etc/nginx/"
     ports:
-      - 80
-      - "6432:6432"
+      - "80"
     networks:
       - my-network
 
+  webterminal:
+    image: webterminal/webterminal:latest
+    container_name: webterminal
+    ports:
+      - "80"
+      - "2100"
+    networks:
+      - my-network
+    volumes:
+      #- "/var/log:/var/log"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart: always
 
   pgadmin_lab:
     image: dpage/pgadmin4
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_DEFAULT_PASSWORD: fTqp2V3Ax
     ports:
-      - 5050
+      - 80
     networks:
       - my-network
 
