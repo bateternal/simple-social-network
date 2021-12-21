@@ -67,7 +67,7 @@ services:
       - "./nginx:/etc/nginx/"
     ports:
       - 80
-      - "5432:5432"
+      - "6432:6432"
     networks:
       - my-network
 
