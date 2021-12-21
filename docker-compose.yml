@@ -66,8 +66,7 @@ services:
       - "./simple-social-network/chat/static:/static"
       - "./nginx:/etc/nginx/"
     ports:
-      - 80
-      - "6432:6432"
+      - "80"
     networks:
       - my-network
 
@@ -90,9 +89,9 @@ services:
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_DEFAULT_PASSWORD: fTqp2V3Ax
     ports:
-      - 5050
+      - 80
     networks:
       - my-network
 
