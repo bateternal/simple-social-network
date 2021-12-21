@@ -74,8 +74,8 @@ services:
     image: webterminal/webterminal:latest
     container_name: webterminal
     ports:
-      - "80"
-      - "2100"
+      - "80:80"
+      - "2100:2100"
     networks:
       - my-network
     volumes:
