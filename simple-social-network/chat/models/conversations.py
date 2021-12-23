@@ -17,7 +17,7 @@ class Conversations(models.Model):
     class Meta:
         unique_together = ('user', 'target',)
         indexes = [
-            models.Index(fields=['user', 'target', 'create', ]),
+            models.Index(fields=['user', 'target', 'create_date', ]),
         ]
 
         db_table = u'conversation'
