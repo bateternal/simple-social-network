@@ -25,6 +25,7 @@ class UserInformations(models.Model):
     verified = models.BooleanField(default=False)
     user_type = models.CharField(
         max_length=255, choices=UserType.choices(), null=True)
+    score = models.IntegerField(default=0)
 
     class Meta:
         db_table = u'user_information'
