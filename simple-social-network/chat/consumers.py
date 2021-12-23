@@ -13,7 +13,7 @@ class ChatConsumer(WebsocketConsumer):
         users = data.split("-")[::-1]
         self.room_name = "-".join(users)
         async_to_sync(self.channel_layer.group_add)(
-            data.split('-')[1],
+            data,
             self.channel_name
         )
 
