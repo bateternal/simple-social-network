@@ -91,7 +91,7 @@
         }
         chatSocket.send(JSON.stringify({
             'message': message,
-            "date":formatAMPM(new Date()),
+            "date_time":formatAMPM(new Date()),
             "sender":'{{me}}',
             "target":'{{ room_name }}'
         }));
