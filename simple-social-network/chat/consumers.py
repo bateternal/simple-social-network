@@ -10,7 +10,7 @@ class ChatConsumer(WebsocketConsumer):
     def connect(self):
         print(self.channel_name + "\n\n\n\n")
         data = self.scope['url_route']['kwargs']['room_name']
-        self.room_name = data.split('-')[0]
+        self.room_name = data
         async_to_sync(self.channel_layer.group_add)(
             data.split('-')[1],
             self.channel_name
