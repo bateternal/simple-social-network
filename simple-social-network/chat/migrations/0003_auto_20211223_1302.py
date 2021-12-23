@@ -17,11 +17,6 @@ class Migration(migrations.Migration):
         ),
         migrations.RenameField(
             model_name='messages',
-            old_name='create',
-            new_name='create_date',
-        ),
-        migrations.RenameField(
-            model_name='messages',
             old_name='date',
             new_name='date_time',
         ),
