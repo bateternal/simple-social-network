@@ -67,14 +67,14 @@
           if (xhr.readyState === 4 && xhr.status === 200) {
             var myArr = JSON.parse(xhr.responseText);
             for (var index in myArr) {
-              if (myArr[index]['seeing']){
+              if (myArr[index]['seen']){
                 $('.inbox_chat').append(`
                 <a href=/chat/${myArr[index]['username']}>
                 <div class="chat_list">
                   <div class="chat_people">
                     <div class="chat_img"> <img src="${myArr[index]['pic']}" alt="sunil"> </div>
                     <div class="chat_ib">
-                      <h5>${myArr[index]['username']}</h5><span class="chat_date">${myArr[index]['date']}</span></h5>
+                      <h5>${myArr[index]['username']}</h5><span class="chat_date">${myArr[index]['date_time']}</span></h5>
                       <p>${myArr[index]['text']}</p>
 
                     </div>
@@ -89,7 +89,7 @@
                   <div class="chat_people">
                     <div class="chat_img"> <img src="${myArr[index]['pic']}" alt="sunil"> </div>
                     <div class="chat_ib">
-                      <h5>${myArr[index]['username']}</h5><span class="chat_date">${myArr[index]['date']}</span></h5>
+                      <h5>${myArr[index]['username']}</h5><span class="chat_date">${myArr[index]['date_time']}</span></h5>
                       <p>${myArr[index]['text']}</p>
                     </div>
                   </div>

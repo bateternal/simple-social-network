@@ -14,7 +14,7 @@ def see_message(request):
         data = json.loads(str(request.body, 'utf-8'))
         Conversations.objects.filter(
             user=request.user,
-            target=User.objects.get(data['target'])).update(seeing=True)
+            target=User.objects.get(data['target'])).update(seen=True)
         return HttpResponse(json.dumps({'errorcode': 0, 'success': True}))
     except Exception:
         return notfound(request)

@@ -27,24 +27,24 @@ class ChatConsumer(WebsocketConsumer):
         text = text_data_json['message']
         sender = text_data_json['sender']
         target = text_data_json['target']
-        date = text_data_json['date']
+        date_time = text_data_json['date_time']
         message = Messages()
         message.sender = User.objects.get(username=sender)
         message.target = User.objects.get(username=target)
         message.timestamp = time()
         message.text = text
-        message.date = date
+        message.date_time = date_time
         message.save()
         obj1, created = Conversations.objects.get_or_create(
             user=message.sender, target=message.target)
         obj1.text = text
-        obj1.date = date
-        obj1.seeing = True
+        obj1.date_time = date_time
+        obj1.seen = True
         obj1.save()
         obj2, created = Conversations.objects.get_or_create(
             target=message.sender, user=message.target)
         obj2.text = text
-        obj2.date = date
+        obj2.date_time = date_time
         obj2.save()
 
         async_to_sync(self.channel_layer.group_send)(
@@ -52,7 +52,7 @@ class ChatConsumer(WebsocketConsumer):
             {
                 'type': 'chat_message',
                 'message': text,
-                'date': date,
+                'date_time': date_time,
                 'pk': message.id
             }
         )
@@ -63,7 +63,7 @@ class ChatConsumer(WebsocketConsumer):
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'message': message,
-            'date': event['date'],
+            'date_time': event['date_time'],
             'pk': event['pk']
             })
         )

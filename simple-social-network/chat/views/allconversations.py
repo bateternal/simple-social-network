@@ -11,13 +11,13 @@ def allconversations(request):
         return HttpResponseRedirect("/login")
     try:
         objects = Conversations.objects.filter(
-            user=request.user).order_by('-create')
+            user=request.user).order_by('-create_date')
         data = []
         for obj in objects:
             user = UserInformations.objects.get(owner=obj.target)
             data.append(
                 {"username": user.username, "pic": user.profile_picture,
-                 "date": obj.date, "text": obj.text, "seeing": obj.seeing})
+                 "date_time": obj.date_time, "text": obj.text, "seen": obj.seen})
 
         return HttpResponse(json.dumps(data), content_type='application/json')
     except Exception:

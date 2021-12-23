@@ -29,11 +29,11 @@ def sync_messages(request):
 
         messages = [
             [
-                {"text": obj.text, "date": obj.date, "pk": obj.id},
+                {"text": obj.text, "date_time": obj.date_time, "pk": obj.id},
                 "out" if obj.sender == user else "in"
             ] for obj in objects]
         Conversations.objects.filter(
-            user=request.user, target=target).update(seeing=True)
+            user=request.user, target=target).update(seen=True)
 
         return HttpResponse(
             json.dumps(messages[::-1]), content_type="application/json")

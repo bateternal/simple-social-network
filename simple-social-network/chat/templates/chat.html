@@ -65,7 +65,7 @@
 
         var data = JSON.parse(e.data);
         var message = data['message'];
-        var date = data['date'];
+        var date = data['date_time'];
         var pk = data['pk'];
         addin(message,"",true,pk);
         // document.querySelector('#chat-log').value += (message + '\n');
@@ -169,9 +169,9 @@
           if(myArr.length > 0){
             for (var index in myArr) {
               if (myArr[index][1] == "in"){
-                addin(myArr[index][0]['text'],myArr[index][0]['date'],false,myArr[index][0]['pk'])
+                addin(myArr[index][0]['text'],myArr[index][0]['date_time'],false,myArr[index][0]['pk'])
               }else{
-                addout(myArr[index][0]['text'],myArr[index][0]['date'],false,false)
+                addout(myArr[index][0]['text'],myArr[index][0]['date_time'],false,false)
               }
             }
           }

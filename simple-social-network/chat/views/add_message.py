@@ -19,7 +19,7 @@ def add_message(request):
             message.target = User.objects.get(username=data['target'])
             message.timestamp = time()
             message.text = data['text']
-            message.date = data['date']
+            message.date_time = data['date_time']
             message.save()
             return HttpResponse(json.dumps({'errorcode': 0, 'success': True}))
     except Exception:

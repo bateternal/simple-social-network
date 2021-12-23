@@ -10,8 +10,8 @@ class Conversations(models.Model):
         User, on_delete=models.CASCADE,
         related_name="targetchat", db_index=True)
     text = models.TextField(null=True)
-    date = models.CharField(max_length=20, null=True)
-    create = models.DateTimeField(auto_now_add=True)
+    date_time = models.CharField(max_length=20, null=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     seen = models.BooleanField(default=False)
 
     class Meta:
