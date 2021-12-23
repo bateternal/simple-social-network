@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.TextField(null=True)),
                 ('date', models.CharField(max_length=20, null=True)),
-                ('create', models.DateTimeField(auto_now_add=True)),
+                ('create_date', models.DateTimeField(auto_now_add=True)),
                 ('seeing', models.BooleanField(default=False)),
                 ('target', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='targetchat', to=settings.AUTH_USER_MODEL)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='userowner', to=settings.AUTH_USER_MODEL)),
