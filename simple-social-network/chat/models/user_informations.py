@@ -24,7 +24,8 @@ class UserInformations(models.Model):
     bio = models.CharField(max_length=200, default='')
     verified = models.BooleanField(default=False)
     user_type = models.CharField(
-        max_length=255, choices=UserType.choices(), null=True)
+        max_length=255, choices=UserType.choices(),
+        null=True, default=UserType.STUDENT)
     score = models.IntegerField(default=0)
 
     class Meta:
