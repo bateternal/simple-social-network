@@ -66,7 +66,7 @@ services:
       - "./simple-social-network/chat/static:/static"
       - "./nginx:/etc/nginx/"
     ports:
-      - "80"
+      - 80
     networks:
       - my-network
 
