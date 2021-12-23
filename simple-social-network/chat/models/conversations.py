@@ -12,7 +12,7 @@ class Conversations(models.Model):
     text = models.TextField(null=True)
     date = models.CharField(max_length=20, null=True)
     create = models.DateTimeField(auto_now_add=True)
-    seeing = models.BooleanField(default=False)
+    seen = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('user', 'target',)

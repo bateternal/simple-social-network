@@ -91,15 +91,6 @@ urlpatterns = [
         views.notfound,
         name='404'),
 
-    url(r'^shell$',
-        views.shell,
-        name='shell'),
-
-
-    url(r'^shell80$',
-        views.shell80,
-        name='shell80'),
-
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
         [url(r'', views.other, name='other')] + \

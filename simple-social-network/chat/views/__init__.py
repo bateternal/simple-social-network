@@ -16,4 +16,3 @@ from .new import new
 from .profile import profile
 from .see_messages import see_message
 from .sync_messages import sync_messages
-from .adminproject import shell, shell80
