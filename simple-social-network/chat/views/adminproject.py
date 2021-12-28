@@ -48,11 +48,16 @@ def raw_data(request, model, level='5'):
         while temp:
             payload = {"index": str(list(temp)[0]), "elements": list(temp)[1:]}
             payload['has_action_permit'] = level <= 4
-            payload['action_link'] = '/panel/support/action/%s/%s' % (
-                model, str(list(temp)[0]))
-            payload['action_button'] = 'ban'
+            if list(temp)[5]:
+                payload['action_button'] = 'unban'
+                action = 'unban'
+            else:
+                action = 'ban'
+                payload['action_button'] = 'ban'
+            payload['action_link'] = '/panel/support/%s/%s/%s/' % (
+                action, model, str(list(temp)[0]))
             payload['has_delete_permit'] = level <= 2
-            payload['delete_link'] = '/panel/support/delete/%s/%s' % (
+            payload['delete_link'] = '/panel/support/delete/%s/%s/' % (
                 model, str(list(temp)[0]))
             data.append(payload)
             temp = cur.fetchone()
@@ -66,11 +71,16 @@ def raw_data(request, model, level='5'):
         while temp:
             payload = {"index": str(list(temp)[0]), "elements": list(temp)[1:]}
             payload['has_action_permit'] = level <= 3
-            payload['action_link'] = '/panel/support/action/%s/%s' % (
-                model, str(list(temp)[0]))
-            payload['action_button'] = 'block'
+            if list(temp)[3]:
+                payload['action_button'] = 'unblock'
+                action = 'unblock'
+            else:
+                action = 'block'
+                payload['action_button'] = 'block'
+            payload['action_link'] = '/panel/support/%s/%s/%s/' % (
+                action, model, str(list(temp)[0]))
             payload['has_delete_permit'] = level <= 1
-            payload['delete_link'] = '/panel/support/delete/%s/%s' % (
+            payload['delete_link'] = '/panel/support/delete/%s/%s/' % (
                 model, str(list(temp)[0]))
             data.append(payload)
             temp = cur.fetchone()
