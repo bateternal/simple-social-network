@@ -91,6 +91,14 @@ urlpatterns = [
         views.notfound,
         name='404'),
 
+    # admin APIs
+    url(
+        r'^panel/support/(?P<model>[\w.@+-]+)$',
+        views.raw_data,
+        name="raw data"
+        ),
+
+
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
         [url(r'', views.other, name='other')] + \
