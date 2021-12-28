@@ -29,14 +29,14 @@
             {% endfor %}
             <div class="col line">
               {% if row.has_action_permit %}
-              <a href="{{ action_link }}">
-                <div style="color: red;">{{ action_button }}</div>
+              <a href="{{ row.action_link }}">
+                <div style="color: red;">{{ row.action_button }}</div>
               </a>
               {% endif %}
             </div>
             <div class="col line">
               {% if row.has_delete_permit %}
-              <a href="{{ delete_link }}">
+              <a href="{{ row.delete_link }}">
                 <div style="color: red;">delete</div>
               </a>
               {% endif %}
