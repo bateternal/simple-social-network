@@ -57,8 +57,8 @@ def raw_data(request, model):
             data.append(list(temp))
             temp = cur.fetchone()
     elif model == 'posts':
-        query = ('select c.title, c.content, u.username'
-                 ' from conversation as c join user_information as u'
+        query = ('select c.id, c.title, c.content, u.username'
+                 ' from posts as c join user_information as u'
                  ' on c.owner_id=u.owner_id')
         cur.execute(query)
         heads = ['title', 'content', 'owner']
