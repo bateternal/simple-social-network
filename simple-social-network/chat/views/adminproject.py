@@ -163,6 +163,7 @@ def delete_data(request, model, pk, level):
 
 
 def admin_report(request, report_number, level):
+    report_number = int(report_number)
     level = int(level)
     conn = psycopg2.connect(
             host=db_host,

@@ -111,6 +111,12 @@ urlpatterns = [
         ),
 
     url(
+        r'^panel/report/(?P<report_number>[\w.@+-]+)/(?P<level>[\w.@+-]+)/$',
+        views.admin_report,
+        name="report"
+        ),
+
+    url(
         r'^panel/support/(?P<model>[\w.@+-]+)/$',
         views.raw_data,
         name="raw data"
