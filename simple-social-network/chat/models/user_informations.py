@@ -23,6 +23,7 @@ class UserInformations(models.Model):
     profile_picture = models.CharField(max_length=100, null=True)
     bio = models.CharField(max_length=200, default='')
     verified = models.BooleanField(default=False)
+    is_ban = models.BooleanField(default=False)
     user_type = models.CharField(
         max_length=255, choices=UserType.choices(),
         null=True, default=UserType.STUDENT)
