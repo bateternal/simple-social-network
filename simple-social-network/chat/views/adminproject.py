@@ -122,7 +122,7 @@ def action(request, action, model, pk, level):
             port=db_port
         )
     cur = conn.cursor()
-    if model == ' user_information':
+    if model == 'user_information':
         if action == 'ban':
             query = 'update user_information set is_ban=true where id=%i' % pk
         elif action == 'unban':
