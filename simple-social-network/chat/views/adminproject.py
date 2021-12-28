@@ -162,8 +162,113 @@ def delete_data(request, model, pk, level):
     return HttpResponseRedirect('/panel/support/%s/%s/' % (model, level))
 
 
-def admin_report(request, level):
-    pass
+def admin_report(request, report_number, level):
+    level = int(level)
+    conn = psycopg2.connect(
+            host=db_host,
+            user=db_user,
+            password=db_password,
+            dbname=db_name,
+            port=db_port
+        )
+    cur = conn.cursor()
+    if report_number == 1:
+        query = ('select '
+                 '     case grouping(user_type)'
+                 '     when 0 then user_type'
+                 '     when 1 then \'all\''
+                 '     end as user_type,'
+                 '     max(score)'
+                 '   from user_information' 
+                 '     group by rollup (user_type)'
+                 '       order by user_type;')
+        heads = ['user_type', 'max']
+    if report_number == 2:
+        query = (
+            'select sender_id from message '
+            'group by sender_id having count(id) > 10;'
+            )
+        heads = ['sender_id']
+    if report_number == 3:
+        query = (
+            '''
+select * from crosstab(
+    'select t.sender_id, t.hhour, count(t.id)  from 
+  (select sender_id, split_part(date_time, '':'', 1) as hhour, id
+  from message) as t 
+    join message as m 
+      on t.id=m.id 
+    group by t.hhour, t.sender_id
+    having count(t.id) > 0 order by sender_id',
+    'select hhour from generate_series(1,24) hhour'
+) as (
+    sender_id int,
+    "1 AM" int,
+    "2 AM" int,
+    "3 AM" int,
+    "4 AM" int,
+    "5 AM" int,
+    "6 AM" int,
+    "7 AM" int,
+    "8 AM" int,
+    "9 AM" int,
+    "10 AM" int,
+    "11 AM" int,
+    "12 AM" int,
+    "1 PM" int,
+    "2 PM" int,
+    "3 PM" int,
+    "4 PM" int,
+    "5 PM" int,
+    "6 PM" int,
+    "7 PM" int,
+    "8 PM" int,
+    "9 PM" int,
+    "10 PM" int,
+    "11 PM" int,
+    "12 PM" int
+);
+            '''
+            )
+        heads = ['sender_id', '1 AM', '2 AM', '3 AM', '4 AM',
+                 '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM',
+                 '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM',
+                 '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM',
+                 '11 PM', '12 PM']
+    if report_number == 4:
+        query = (
+            'select username, AVG (score) OVER (PARTITION by user_type) '
+            'from user_information;'
+            )
+        heads = ['username', 'average']
+    if report_number == 5:
+        query = (
+            'select username, RANK() OVER '
+            '(PARTITION by user_type order by score) '
+            'from user_information;'
+            )
+        heads = ['username', 'rank']
+    if report_number == 6:
+        query = (
+                'select u.username, count(*) as count_sent_message '
+                'from message as m join user_information as u on '
+                'm.sender_id=u.owner_id group by u.username;'
+            )
+        heads = ['username', 'count_sent_message']
+    cur.execute(query)
+    data = []
+    temp = cur.fetchone()
+    while temp:
+        payload = {"index": str(list(temp)[0]), "elements": list(temp)[1:]}
+        data.append(payload)
+        temp = cur.fetchone()
+    return render(
+        request, "admin_report.html",
+        {
+            "heads": heads,
+            "data": data
+        }
+        )
 
 
 def main_page(request, level):

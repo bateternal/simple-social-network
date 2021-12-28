@@ -26,7 +26,7 @@ class UserInformations(models.Model):
     is_ban = models.BooleanField(default=False)
     user_type = models.CharField(
         max_length=255, choices=UserType.choices(),
-        null=True, default=UserType.STUDENT)
+        null=True, default=UserType.STUDENT.value)
     score = models.IntegerField(default=0)
 
     class Meta:
