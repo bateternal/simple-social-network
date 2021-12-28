@@ -112,6 +112,7 @@ def raw_data(request, model, level='5'):
 
 
 def action(request, action, model, pk, level):
+    pk = int(pk)
     if model not in ['conversation', 'user_information', 'post']:
         raise Http404("not found")
     conn = psycopg2.connect(
@@ -140,6 +141,7 @@ def action(request, action, model, pk, level):
 
 
 def delete_data(request, model, pk, level):
+    pk = int(pk)
     if model not in ['conversation', 'user_information', 'post']:
         raise Http404("not found")
     conn = psycopg2.connect(
