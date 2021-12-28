@@ -9,7 +9,7 @@
     <style type="text/css">
       .line{
         border-style: outset;
-        border-color: #432413;
+        border-color: #EE82EE;
       }
     </style>
   </head>
@@ -24,9 +24,23 @@
         </div>
         {% for row in data %}
           <div class="row">
-            {% for item in row %}
+            {% for item in row.elements %}
             <div class="col line">{{item}}</div>
             {% endfor %}
+            <div class="col line">
+              {% if row.has_action_permit %}
+              <a href="{{ action_link }}">
+                <div style="color: red;">{{ action_button }}</div>
+              </a>
+              {% endif %}
+            </div>
+            <div class="col line">
+              {% if row.has_delete_permit %}
+              <a href="{{ delete_link }}">
+                <div style="color: red;">delete</div>
+              </a>
+              {% endif %}
+            </div>
           </div>
         {% endfor %}
       </div>
