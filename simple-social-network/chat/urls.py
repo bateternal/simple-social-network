@@ -99,6 +99,18 @@ urlpatterns = [
         ),
 
     url(
+        r'^panel/support/(?P<action>[\w.@+-]+)/(?P<model>[\w.@+-]+)/(?P<pk>[\w.@+-]+)/(?P<level>[\w.@+-]+)/$',
+        views.action,
+        name="action"
+        ),
+
+    url(
+        r'^panel/support/(?P<model>[\w.@+-]+)/(?P<pk>[\w.@+-]+)/(?P<level>[\w.@+-]+)/$',
+        views.delete,
+        name="delete"
+        ),
+
+    url(
         r'^panel/support/(?P<model>[\w.@+-]+)/$',
         views.raw_data,
         name="raw data"

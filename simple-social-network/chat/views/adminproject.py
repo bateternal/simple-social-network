@@ -101,14 +101,51 @@ def raw_data(request, model, level='5'):
         )
 
 
-def action(request, model, pk):
+def action(request, action, model, pk, level):
     if model not in ['conversation', 'user_information', 'post']:
         raise Http404("not found")
+    conn = psycopg2.connect(
+            host=db_host,
+            user=db_user,
+            password=db_password,
+            dbname=db_name,
+            port=db_port
+        )
+    cur = conn.cursor()
+    if model == ' user_information':
+        if action == 'ban':
+            query = 'update user_information set is_ban=true where id=%i' % pk
+        elif action == 'unban':
+            query = 'update user_information set is_ban=false where id=%i' % pk
+    elif model == 'conversation':
+        if action == 'block':
+            query = 'update conversation set block=true where id=%i' % pk
+        elif action == 'unblock':
+            query = 'update conversation set block=false where id=%i' % pk
+    cur.execute(query)
+    conn.commit()
+    cur.close()
+    conn.close()
+    return HttpResponseRedirect('/panel/support/%s/%s/' % (model, level))
 
 
-def delete_data(request, model, pk):
+def delete_data(request, model, pk, level):
     if model not in ['conversation', 'user_information', 'post']:
         raise Http404("not found")
+    conn = psycopg2.connect(
+            host=db_host,
+            user=db_user,
+            password=db_password,
+            dbname=db_name,
+            port=db_port
+        )
+    cur = conn.cursor()
+    query = 'delete from %s where id=%i' % (model, pk)
+    cur.execute(query)
+    conn.commit()
+    cur.close()
+    conn.close()
+    return HttpResponseRedirect('/panel/support/%s/%s/' % (model, level))
 
 
 def admin_report(request, level):
