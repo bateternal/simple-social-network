@@ -44,7 +44,7 @@ def raw_data(request, model):
         data = []
         temp = cur.fetchone()
         while temp:
-            data.append(list(temp))
+            data.append(list(temp)[1:])
             temp = cur.fetchone()
     elif model == 'conversation':
         query = ('select id, user_id, target_id, block'
@@ -54,7 +54,7 @@ def raw_data(request, model):
         data = []
         temp = cur.fetchone()
         while temp:
-            data.append(list(temp))
+            data.append(list(temp)[1:])
             temp = cur.fetchone()
     elif model == 'post':
         query = ('select c.id, c.title, c.content, u.username'
@@ -65,7 +65,7 @@ def raw_data(request, model):
         data = []
         temp = cur.fetchone()
         while temp:
-            data.append(list(temp))
+            data.append(list(temp)[1:])
             temp = cur.fetchone()
     return render(
         request, "admin_table.html",
