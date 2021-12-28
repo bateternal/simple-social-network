@@ -48,7 +48,7 @@ def raw_data(request, model, level='5'):
         while temp:
             payload = {"index": str(list(temp)[0]), "elements": list(temp)[1:]}
             payload['has_action_permit'] = level <= 4
-            if list(temp)[5]:
+            if list(temp)[4]:
                 payload['action_button'] = 'unban'
                 action = 'unban'
             else:
