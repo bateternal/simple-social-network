@@ -25,7 +25,7 @@ def adminproject(request):
         )
 
 
-def raw_data(request, model, level):
+def raw_data(request, model, level=5):
     if model not in ['conversation', 'user_information', 'post']:
         raise Http404("not found")
     conn = psycopg2.connect(
@@ -46,7 +46,7 @@ def raw_data(request, model, level):
         temp = cur.fetchone()
         while temp:
             payload = {"index": str(list(temp)[0]), "elements": list(temp)[1:]}
-            payload['has_action_permit'] = True
+            payload['has_action_permit'] = level <= 4
             payload['action_link'] = '/panel/support/action/%s/%s' % (
                 model, str(list(temp)[0]))
             payload['action_button'] = 'ban'

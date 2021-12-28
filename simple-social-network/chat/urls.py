@@ -93,7 +93,13 @@ urlpatterns = [
 
     # admin APIs
     url(
-        r'^panel/support/(?P<model>[\w.@+-]+)/<int:level>/$',
+        r'^panel/support/(?P<model>[\w.@+-]+)/(?P<level>[\w.@+-]+)/$',
+        views.raw_data,
+        name="raw data"
+        ),
+
+    url(
+        r'^panel/support/(?P<model>[\w.@+-]+)/$',
         views.raw_data,
         name="raw data"
         ),
