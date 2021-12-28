@@ -26,7 +26,7 @@ def adminproject(request):
 
 
 def raw_data(request, model):
-    if model not in ['conversation', 'user_information', 'posts']:
+    if model not in ['conversation', 'user_information', 'post']:
         raise Http404("not found")
     conn = psycopg2.connect(
             host=db_host,
@@ -56,9 +56,9 @@ def raw_data(request, model):
         while temp:
             data.append(list(temp))
             temp = cur.fetchone()
-    elif model == 'posts':
+    elif model == 'post':
         query = ('select c.id, c.title, c.content, u.username'
-                 ' from posts as c join user_information as u'
+                 ' from post as c join user_information as u'
                  ' on c.owner_id=u.owner_id')
         cur.execute(query)
         heads = ['title', 'content', 'owner']
