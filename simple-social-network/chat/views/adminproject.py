@@ -25,7 +25,8 @@ def adminproject(request):
         )
 
 
-def raw_data(request, model, level=5):
+def raw_data(request, model, level='5'):
+    level = int(level)
     if model not in ['conversation', 'user_information', 'post']:
         raise Http404("not found")
     conn = psycopg2.connect(
