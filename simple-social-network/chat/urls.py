@@ -106,7 +106,7 @@ urlpatterns = [
 
     url(
         r'^panel/support/(?P<model>[\w.@+-]+)/(?P<pk>[\w.@+-]+)/(?P<level>[\w.@+-]+)/$',
-        views.delete,
+        views.delete_data,
         name="delete"
         ),
 
