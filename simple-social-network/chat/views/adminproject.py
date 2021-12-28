@@ -54,11 +54,11 @@ def raw_data(request, model, level='5'):
             else:
                 action = 'ban'
                 payload['action_button'] = 'ban'
-            payload['action_link'] = '/panel/support/%s/%s/%s/' % (
-                action, model, str(list(temp)[0]))
+            payload['action_link'] = '/panel/support/%s/%s/%s/%s/' % (
+                action, model, str(list(temp)[0]), str(level))
             payload['has_delete_permit'] = level <= 2
-            payload['delete_link'] = '/panel/support/delete/%s/%s/' % (
-                model, str(list(temp)[0]))
+            payload['delete_link'] = '/panel/support/delete/%s/%s/%s/' % (
+                model, str(list(temp)[0]), str(level))
             data.append(payload)
             temp = cur.fetchone()
     elif model == 'conversation':
@@ -77,11 +77,11 @@ def raw_data(request, model, level='5'):
             else:
                 action = 'block'
                 payload['action_button'] = 'block'
-            payload['action_link'] = '/panel/support/%s/%s/%s/' % (
-                action, model, str(list(temp)[0]))
+            payload['action_link'] = '/panel/support/%s/%s/%s/%s/' % (
+                action, model, str(list(temp)[0]), str(level))
             payload['has_delete_permit'] = level <= 1
-            payload['delete_link'] = '/panel/support/delete/%s/%s/' % (
-                model, str(list(temp)[0]))
+            payload['delete_link'] = '/panel/support/delete/%s/%s/%s/' % (
+                model, str(list(temp)[0]), str(level))
             data.append(payload)
             temp = cur.fetchone()
     elif model == 'post':
