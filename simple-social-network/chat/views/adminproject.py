@@ -6,11 +6,11 @@ import psycopg2
 import os
 
 
-db_name = os.environ.get('SQL_DATABASE', ''),
-db_user = os.environ.get('SQL_USER', ''),
-db_password = os.environ.get('SQL_PASSWORD', ''),
-db_host = os.environ.get('SQL_HOST', ''),
-db_port = os.environ.get('SQL_PORT', ''),
+db_name = os.environ.get('SQL_DATABASE', '')
+db_user = os.environ.get('SQL_USER', '')
+db_password = os.environ.get('SQL_PASSWORD', '')
+db_host = os.environ.get('SQL_HOST', '')
+db_port = os.environ.get('SQL_PORT', '')
 
 
 def adminproject(request):
