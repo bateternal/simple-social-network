@@ -117,6 +117,12 @@ urlpatterns = [
         ),
 
     url(
+        r'^panel/support/$',
+        views.admin_main,
+        name="support"
+        ),
+
+    url(
         r'^panel/support/(?P<model>[\w.@+-]+)/$',
         views.raw_data,
         name="raw data"
