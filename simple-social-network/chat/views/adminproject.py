@@ -260,7 +260,7 @@ select * from crosstab(
     data = []
     temp = cur.fetchone()
     while temp:
-        payload = {"index": str(list(temp)[0]), "elements": list(temp)[1:]}
+        payload = {"elements": list(temp)}
         data.append(payload)
         temp = cur.fetchone()
     return render(
