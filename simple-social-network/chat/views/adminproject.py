@@ -13,18 +13,6 @@ db_host = os.environ.get('SQL_HOST', '')
 db_port = os.environ.get('SQL_PORT', '')
 
 
-def adminproject(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect("/login")
-    return render(
-        request, "landing.html",
-        {
-            "search": Search(),
-            "user": request.user.username
-        }
-        )
-
-
 def raw_data(request, model, level='5'):
     level = int(level)
     if model not in ['conversation', 'user_information', 'post']:
@@ -173,6 +161,7 @@ def admin_report(request, report_number, level):
             port=db_port
         )
     cur = conn.cursor()
+    description = ""
     if report_number == 1:
         query = ('select '
                  '     case grouping(user_type)'
@@ -184,12 +173,14 @@ def admin_report(request, report_number, level):
                  '     group by rollup (user_type)'
                  '       order by user_type;')
         heads = ['user_type', 'max']
+        description = "جمع امتیاز هر نوع و همه ی نوع های کاربران"
     if report_number == 2:
         query = (
             'select sender_id from message '
             'group by sender_id having count(id) > 10;'
             )
         heads = ['sender_id']
+        description = "ایدی کاربرانی که بیشتر از ده پیام ارسال کرده اند"
     if report_number == 3:
         query = (
             '''
@@ -236,12 +227,14 @@ select * from crosstab(
                  '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM',
                  '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM',
                  '11 PM', '12 PM']
+        description = "برای اینکه بفهمیم هر کاربر در هر ساعت از شبانه روز چند پیام ارسال کرده است از این کوئری استفاده میکنیم."
     if report_number == 4:
         query = (
             'select username, AVG (score) OVER (PARTITION by user_type) '
             'from user_information;'
             )
         heads = ['username', 'average']
+        description = "یوزرنیم کاربران و میانگین امتیاز هم نوعانش"
     if report_number == 5:
         query = (
             'select username, RANK() OVER '
@@ -249,6 +242,7 @@ select * from crosstab(
             'from user_information;'
             )
         heads = ['username', 'rank']
+        description = "هر کاربر از نظر امتیازش بین هم نوعان خود چه رتبه ای دارد"
     if report_number == 6:
         query = (
                 'select u.username, count(*) as count_sent_message '
@@ -256,6 +250,7 @@ select * from crosstab(
                 'm.sender_id=u.owner_id group by u.username;'
             )
         heads = ['username', 'count_sent_message']
+        description = "هر یوزرنیم چند پیام ارسال کرده است"
     cur.execute(query)
     data = []
     temp = cur.fetchone()
@@ -267,7 +262,8 @@ select * from crosstab(
         request, "admin_report.html",
         {
             "heads": heads,
-            "data": data
+            "data": data,
+            "description": description
         }
         )
 
