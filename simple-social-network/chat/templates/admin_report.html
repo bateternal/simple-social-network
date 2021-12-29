@@ -44,23 +44,13 @@
         <tbody>
           {% for row in data %}
           <tr>
-            <td>
             {% for item in row.elements %}
+            <td>
             {{item}}
-            {% endfor %}
             </td>
+            {% endfor %}
           </tr>
           {% endfor %}
-          <tr>
-            <td>Mary</td>
-            <td>Moe</td>
-            <td>mary@example.com</td>
-          </tr>
-          <tr>
-            <td>July</td>
-            <td>Dooley</td>
-            <td>july@example.com</td>
-          </tr>
         </tbody>
       </table>
     </div>
