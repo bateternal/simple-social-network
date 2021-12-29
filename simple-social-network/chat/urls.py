@@ -117,7 +117,13 @@ urlpatterns = [
         ),
 
     url(
-        r'^panel/support/$',
+        r'^panel/main/(?P<level>[\w.@+-]+)/$',
+        views.admin_main,
+        name="support"
+        ),
+
+    url(
+        r'^panel/main/$',
         views.admin_main,
         name="support"
         ),

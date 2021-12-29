@@ -272,7 +272,7 @@ select * from crosstab(
         )
 
 
-def admin_main(request, level):
+def admin_main(request, level=5):
     return render(
         request, "admin_main.html",
         {
