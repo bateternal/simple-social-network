@@ -16,7 +16,7 @@
   <body>
     <div class="row">
       <div class="col-sm-1"></div>
-      <div class="col-sm-10">
+<!--       <div class="col-sm-10">
         <div class="row">
           {% for head in heads %}
             <div class="col">{{head}}</div>
@@ -29,8 +29,32 @@
             {% endfor %}
           </div>
         {% endfor %}
-      </div>
+      </div> -->
+    <div class="container mt-3">
+      <h2>Basic Table</h2>
+      <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>            
+      <table class="table">
+        <thead>
+          <tr>
+            {% for head in heads %}
+            <th>{{ head }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            {% for item in row.elements %}
+            {{item}}
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
       <div class="col-sm-1"></div>
-    </div>  
+    </div>
+
   </body>
 </html>
