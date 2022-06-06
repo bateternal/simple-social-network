@@ -1,0 +1,12 @@
+asgiref==3.2.3
+aioredis==1.3.1
+asgi-redis
+channels==2.4.0 
+channels-redis==2.4.1 
+Django==3.2.5
+hiredis==1.0.1 
+redis==2.10.6 
+requests==2.18.4  
+psycopg2-binary==2.8.5
+gunicorn==20.0.4
+django-proxy

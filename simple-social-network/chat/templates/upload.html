@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="/static/js/jquery/3.1.1/jquery-3.1.1.min.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/static/css/bootstrap/4.4.1/bootstrap.min.css">
+	<script src="/static/js/jquery/3.4.1/jquery.min.js"></script>
+	<script src="/static/js/propper/1.16.0/popper.min.js"></script>
+	<script src="/static/js/bootstrap/4.4.1/bootstrap.min.js"></script>
+    
+    <link href="/static/css/app.css" rel="stylesheet" id="app-css">
+	<link href="/static/css/font-awesome.css" type="text/css" rel="stylesheet">
+	</script>
+</head>
+
+<body  style="background-color: #bbbbbb">
+
+<ul style="height: 11%;" class="container">
+  <li><a href="/conv"><img src="/media/back.png" width="60" height="60"  alt="sunil"></a></li>
+  <li><img src="https://ptetutorials.com/images/user-profile.png" width="60" height="60"  alt="sunil"></li>
+  <li style="float:right"><a class="s">new post</a></li>
+</ul>
+	<div class="container mt-3">
+		  <form enctype="multipart/form-data" method="post" action=".">
+		     {% csrf_token %}
+		     <label for="title" class="mr-sm-2">title</label>
+		 	{{ upload.title }}
+		     <div class="form-group">
+		      <label for="content">content</label>
+		      {{ upload.content }}
+		    </div>
+		     <div class="custom-file mb-3">
+		     	{{ upload.file }}
+		     	<label class="custom-file-label" for="customFile">Choose file</label>
+		     </div>
+
+		     <button type="submit" class="btn btn-success">share</button>
+		 </form>
+		</div>
+
+<script>
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
+
+</body>
+</html>

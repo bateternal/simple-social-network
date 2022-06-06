@@ -1,0 +1,104 @@
+version: '3'
+
+services:
+  ssn:
+    build: ./simple-social-network
+    # command: gunicorn --threads=2 --workers=2 joozve.wsgi:application --bind 0.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:8000
+    restart: always
+    volumes:
+      - "./simple-social-network/media:/media"
+    environment:
+      - REDIS_DOMAIN=redis_lab
+      - REDIS_PORT=6379
+      - MEDIA_DIRECTORY=media
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=database_lab
+      - SQL_USER=aut
+      - SQL_PASSWORD=Jw1Be4R71RTu5
+      - SQL_HOST=db_lab
+      - SQL_PORT=5432
+      - REDIS_PASSWORD=jscGVGGVGB72vGAxmawuDOKAINi
+    depends_on:
+      - db_lab
+      - redis_lab
+    ports:
+      - 8000
+    networks:
+      - my-network
+
+
+  db_lab:
+    image: postgres:12.0-alpine
+    restart: always
+    volumes:
+      - postgres_data_lab:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=database_lab
+      - POSTGRES_USER=aut
+      - POSTGRES_PASSWORD=Jw1Be4R71RTu5
+    ports:
+      - 5432
+    networks:
+      - my-network
+
+
+  redis_lab:
+    build: ./redis
+    restart: always
+    volumes:
+      - ./redis:/etc/redis
+    environment:
+      - REDIS_PASSWORD=jscGVGGVGB72vGAxmawuDOKAINi
+    ports:
+      - 6379
+    networks:
+      - my-network
+
+
+  nginx_lab:
+    image: nginx:latest
+    restart: always
+    links:
+      - ssn
+    volumes:
+      - "./simple-social-network/media:/media"
+      - "./simple-social-network/chat/static:/static"
+      - "./nginx:/etc/nginx/"
+    ports:
+      - 80
+    networks:
+      - my-network
+
+  webterminal:
+    image: webterminal/webterminal:latest
+    container_name: webterminal
+    ports:
+      - "80"
+      - "2100"
+    networks:
+      - my-network
+    volumes:
+      #- "/var/log:/var/log"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart: always
+
+  pgadmin_lab:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: fTqp2V3Ax
+    ports:
+      - 80
+    networks:
+      - my-network
+
+volumes:
+  postgres_data_lab:
+
+
+networks:
+  my-network:
+    external: true

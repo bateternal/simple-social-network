@@ -1,4 +1,4 @@
 *.pyc
 *.log
 *.sqlite3
-/chat/migrations
+simple-social-network/media/*
